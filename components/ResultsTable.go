@@ -2,12 +2,14 @@ package components
 
 import (
 	"fmt"
+	"log"
+	"os"
+	"path/filepath"
 	"strings"
 
 	"github.com/gdamore/tcell/v2"
 	"github.com/google/uuid"
 	"github.com/rivo/tview"
-	"golang.design/x/clipboard"
 
 	"github.com/jorgerojas26/lazysql/app"
 	"github.com/jorgerojas26/lazysql/commands"
@@ -504,16 +506,26 @@ func (table *ResultsTable) tableInputCapture(event *tcell.EventKey) *tcell.Event
 			selectedCell := table.GetCell(selectedRowIndex, selectedColumnIndex)
 
 			if selectedCell != nil {
-				err := clipboard.Init()
+				// err := clipboard.Init()
 
-				if err == nil {
-					text := []byte(selectedCell.Text)
+				// if err == nil {
+				// text := []byte()
 
-					if text != nil {
-						clipboard.Write(clipboard.FmtText, text)
+				// if text != nil {
+				func() {
+					filename := filepath.Join("logs", "cp.log")
+					file, err := os.OpenFile(filename, os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0666)
+					if err != nil {
+						log.Fatalf("Failed to open file: %v", err)
 					}
-				}
+					defer file.Close()
+					log.SetOutput(file)
+					log.Println(selectedCell.Text)
+				}()
+				// clipboard.Write(clipboard.FmtText, text)
+				// }
 			}
+			// }
 		}
 	}
 

@@ -491,8 +491,9 @@ func (db *MySQL) formatTableName(tableName string) string {
 	}
 
 	database := splittedTableName[0]
-	table := splittedTableName[1]
-
+	table_name_list := []string{}
+	table_name_list = append(table_name_list, splittedTableName[1:]...)
+	table := strings.Join(table_name_list, ".")
 	formattedTableName := fmt.Sprintf("`%s`.`%s`", database, table)
 
 	return formattedTableName
