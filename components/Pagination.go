@@ -26,7 +26,7 @@ func NewPagination() *Pagination {
 	wrapper.SetBorder(true)
 
 	textView := tview.NewTextView()
-	textView.SetText(fmt.Sprintf("%s-%s of %s rows", "0", "0", "0"))
+	textView.SetText(fmt.Sprintf("`<`(Previous page)	%s-%s of %s rows	`>`(Next page)", "0", "0", "0"))
 	textView.SetTextAlign(tview.AlignCenter)
 
 	wrapper.AddItem(textView, 0, 1, false)
@@ -73,7 +73,7 @@ func (pagination *Pagination) SetTotalRecords(total int) {
 		limit = total
 	}
 
-	pagination.textView.SetText(fmt.Sprintf("%d-%d of %d rows", offset+1, limit, total))
+	pagination.textView.SetText(fmt.Sprintf("`<`(Previous page)	%d-%d of %d rows	`>`(Next page)", offset+1, limit, total))
 }
 
 func (pagination *Pagination) SetLimit(limit int) {
@@ -86,7 +86,7 @@ func (pagination *Pagination) SetLimit(limit int) {
 		limit = total
 	}
 
-	pagination.textView.SetText(fmt.Sprintf("%d-%d of %d rows", offset+1, limit, total))
+	pagination.textView.SetText(fmt.Sprintf("`<`(Previous page)	%d-%d of %d rows	`>`(Next page)", offset+1, limit, total))
 }
 
 func (pagination *Pagination) SetOffset(offset int) {
@@ -99,5 +99,5 @@ func (pagination *Pagination) SetOffset(offset int) {
 		limit = total
 	}
 
-	pagination.textView.SetText(fmt.Sprintf("%d-%d of %d rows", offset+1, limit, total))
+	pagination.textView.SetText(fmt.Sprintf("`<`(Previous page)	%d-%d of %d rows	`>`(Next page)", offset+1, limit, total))
 }
