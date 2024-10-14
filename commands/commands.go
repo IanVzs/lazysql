@@ -36,6 +36,7 @@ const (
 	// Operations
 	Copy
 	Edit
+	Expand
 	Save
 	Delete
 	Search
@@ -101,6 +102,8 @@ func (c Command) String() string {
 		return "Copy"
 	case Edit:
 		return "Edit"
+	case Expand:
+		return "Expand"
 	case Save:
 		return "Save"
 	case Delete:

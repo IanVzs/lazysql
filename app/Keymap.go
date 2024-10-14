@@ -66,6 +66,7 @@ var Keymaps = KeymapSystem{
 		"table": {
 			Bind{Key: Key{Char: '/'}, Cmd: cmd.Search},
 			Bind{Key: Key{Char: 'c'}, Cmd: cmd.Edit},
+			Bind{Key: Key{Char: 'e'}, Cmd: cmd.Expand},
 			Bind{Key: Key{Char: 'd'}, Cmd: cmd.Delete},
 			Bind{Key: Key{Char: 'w'}, Cmd: cmd.GotoNext},
 			Bind{Key: Key{Char: 'b'}, Cmd: cmd.GotoPrev},

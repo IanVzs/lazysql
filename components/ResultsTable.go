@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"runtime"
 	"strings"
 
 	"github.com/gdamore/tcell/v2"
@@ -425,6 +426,33 @@ func (table *ResultsTable) tableInputCapture(event *tcell.EventKey) *tcell.Event
 				table.MutateInsertedRowCell(cellReference.(uuid.UUID), col, newValue)
 			}
 		})
+	} else if command == commands.Expand && runtime.GOOS == "linux" {
+		// 展开显示数据
+		// ----- THIS IS A LINUX-ONLY FEATURE, for now
+		selectedCell := table.GetCell(selectedRowIndex, selectedColumnIndex)
+		_text := selectedCell.Text
+		textarea := tview.NewTextArea()
+		sqlEditor := &SQLEditor{
+			TextArea: textarea,
+			state: &SQLEditorState{
+				isFocused: false,
+			},
+		}
+		text := openExternalEditor4Expend(sqlEditor, _text)
+
+		// Set the text from file
+		if selectedCell.Text != text {
+			// TODO 修改文字后进入edit模式,必须有键盘输入动作才能触发edit的数据加载,才能保存数据
+			// 否则只能临时展示无法真正修改数据(因为这里只是很生硬的调用了edit内容,没有深度处理)
+			selectedCell.Text = text
+			table.StartEditingCell(selectedRowIndex, selectedColumnIndex, func(newValue string, row, col int) {
+				cellReference := table.GetCell(row, 0).GetReference()
+
+				if cellReference != nil {
+					table.MutateInsertedRowCell(cellReference.(uuid.UUID), col, newValue)
+				}
+			})
+		}
 	} else if command == commands.GotoNext {
 		if selectedColumnIndex+1 < colCount {
 			table.Select(selectedRowIndex, selectedColumnIndex+1)
